@@ -58,3 +58,7 @@ touch ~/.gatorconfig.json
   "db_url": <your_postgresql_connection_string>
 }
 ```
+
+## Usage
+- `register <username>`: registers a new user.
+- `login <username>`: logs in with specified username. Note: username must be registered before logging in.
