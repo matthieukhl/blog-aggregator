@@ -1,0 +1,7 @@
+*.log 
+*.json 
+
+.env
+config.yaml 
+
+gator
