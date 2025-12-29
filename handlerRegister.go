@@ -11,11 +11,12 @@ import (
 )
 
 func handlerRegister(s *state, cmd command) error {
-	username := cmd.args[0]
 
-	if username == "" {
+	if len(cmd.args) == 0 {
 		return fmt.Errorf(ErrMissingUsername)
 	}
+
+	username := cmd.args[0]
 
 	params := database.CreateUserParams{
 		ID:        uuid.New(),
