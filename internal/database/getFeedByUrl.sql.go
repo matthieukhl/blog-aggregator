@@ -10,11 +10,11 @@ import (
 )
 
 const getFeedByURL = `-- name: GetFeedByURL :one
-SELECT id, name, url, user_id, created_at, updated_at FROM feeds
+SELECT id, name, url, user_id, created_at, updated_at FROM feeds WHERE url = $1
 `
 
-func (q *Queries) GetFeedByURL(ctx context.Context) (Feed, error) {
-	row := q.db.QueryRowContext(ctx, getFeedByURL)
+func (q *Queries) GetFeedByURL(ctx context.Context, url string) (Feed, error) {
+	row := q.db.QueryRowContext(ctx, getFeedByURL, url)
 	var i Feed
 	err := row.Scan(
 		&i.ID,
