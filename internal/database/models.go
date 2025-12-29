@@ -13,7 +13,7 @@ import (
 
 type Feed struct {
 	ID        uuid.UUID
-	Name      sql.NullString
+	Name      string
 	Url       string
 	UserID    uuid.UUID
 	CreatedAt sql.NullTime
