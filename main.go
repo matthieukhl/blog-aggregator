@@ -18,6 +18,7 @@ const (
 	ErrUserDoesNotExists    = "User does not exists"
 	ErrFailedToDeleteUsers  = "Failed to delete users"
 	ErrNoUsersFound         = "No users found"
+	ErrFeedDoesNotExist     = "Feed does not exist"
 )
 
 type state struct {
