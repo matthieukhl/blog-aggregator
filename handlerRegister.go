@@ -27,7 +27,7 @@ func handlerRegister(s *state, cmd command) error {
 
 	user, err := s.db.CreateUser(context.Background(), params)
 	if err != nil {
-		fmt.Printf("failed to create user %s\n", username)
+		fmt.Printf("failed to create user %s:;%v\n", username, err)
 		os.Exit(1)
 	}
 
