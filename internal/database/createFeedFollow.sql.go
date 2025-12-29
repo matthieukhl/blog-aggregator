@@ -31,16 +31,16 @@ INNER JOIN users u ON u.id = iff.user_id
 
 type CreateFeedFollowParams struct {
 	ID        uuid.UUID
-	UserID    uuid.NullUUID
-	FeedID    uuid.NullUUID
+	UserID    uuid.UUID
+	FeedID    uuid.UUID
 	CreatedAt time.Time
 	UpdatedAt time.Time
 }
 
 type CreateFeedFollowRow struct {
 	ID        uuid.UUID
-	UserID    uuid.NullUUID
-	FeedID    uuid.NullUUID
+	UserID    uuid.UUID
+	FeedID    uuid.UUID
 	CreatedAt time.Time
 	UpdatedAt time.Time
 	FeedName  string
