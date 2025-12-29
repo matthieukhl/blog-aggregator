@@ -3,8 +3,10 @@ CREATE TABLE feeds (
     id UUID PRIMARY KEY,
     name VARCHAR,
     url VARCHAR UNIQUE NOT NULL,
-    user_id UUID NOT NULL REFERENCES users.id
-)
+    user_id UUID NOT NULL REFERENCES users(id) ON DELETE CASCADE,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+);
 
 -- +goose Down
 DROP TABLE feeds;
