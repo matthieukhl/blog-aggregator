@@ -2,7 +2,6 @@ package main
 
 import (
 	"context"
-	"database/sql"
 	"fmt"
 	"time"
 
@@ -10,7 +9,7 @@ import (
 	"github.com/matthieukhl/blog-aggregator/internal/database"
 )
 
-func handlerFollow(s *state, cmd command) error {
+func handlerFollow(s *state, cmd command, user database.User) error {
 	if len(cmd.args) < 1 {
 		return fmt.Errorf(ErrNotEnoughArgs)
 	}
@@ -22,13 +21,13 @@ func handlerFollow(s *state, cmd command) error {
 		return fmt.Errorf(ErrFeedDoesNotExist)
 	}
 
-	user, err := s.db.GetUser(context.Background(), s.cfg.CurrentUserName)
-	if err != nil {
-		if err == sql.ErrNoRows {
-			return fmt.Errorf(ErrNoUsersFound)
-		}
-		return err
-	}
+	// user, err := s.db.GetUser(context.Background(), s.cfg.CurrentUserName)
+	// if err != nil {
+	// 	if err == sql.ErrNoRows {
+	// 		return fmt.Errorf(ErrNoUsersFound)
+	// 	}
+	// 	return err
+	// }
 
 	params := database.CreateFeedFollowParams{
 		ID:        uuid.New(),

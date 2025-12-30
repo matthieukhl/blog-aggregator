@@ -4,12 +4,13 @@ import (
 	"context"
 	"database/sql"
 	"fmt"
+
+	"github.com/matthieukhl/blog-aggregator/internal/database"
 )
 
-func handlerFollowing(s *state, cmd command) error {
-	currentUser := s.cfg.CurrentUserName
+func handlerFollowing(s *state, cmd command, user database.User) error {
 
-	feedsFollowing, err := s.db.GetFeedFollowsForUser(context.Background(), currentUser)
+	feedsFollowing, err := s.db.GetFeedFollowsForUser(context.Background(), user.ID)
 	if err != nil {
 		if err == sql.ErrNoRows {
 			return fmt.Errorf("User is not subscribed to a feed yet! Subscribe to your first feed with the follow command")

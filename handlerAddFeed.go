@@ -13,7 +13,7 @@ import (
 // Command takes two arguments:
 // - name: the name of the RSS feed
 // - url: the URL of the feed
-func handlerAddFeed(s *state, cmd command) error {
+func handlerAddFeed(s *state, cmd command, user database.User) error {
 	// Check if there are enough arguments
 	if len(cmd.args) < 2 {
 		return fmt.Errorf(ErrNotEnoughArgs)
@@ -21,10 +21,10 @@ func handlerAddFeed(s *state, cmd command) error {
 
 	feedName := cmd.args[0]
 	feedUrl := cmd.args[1]
-	user, err := s.db.GetUser(context.Background(), s.cfg.CurrentUserName)
-	if err != nil {
-		return fmt.Errorf(ErrNoUsersFound)
-	}
+	// user, err := s.db.GetUser(context.Background(), s.cfg.CurrentUserName)
+	// if err != nil {
+	// 	return fmt.Errorf(ErrNoUsersFound)
+	// }
 
 	params := database.CreateFeedParams{
 		ID:        uuid.New(),
