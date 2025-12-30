@@ -40,9 +40,13 @@ func handlerScrapeFeeds(s *state, cmd command, user database.User) error {
 	}
 
 	// Print item titles to console
+	fmt.Println("=======================================")
+	fmt.Println(feed.Name)
+	fmt.Println("=======================================")
 	for i, item := range feedData.Channel.Item {
 		fmt.Printf("%d: %s\n", i+1, item.Title)
 	}
+	fmt.Println("")
 
 	return nil
 }
