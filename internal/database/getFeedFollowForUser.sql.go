@@ -7,6 +7,8 @@ package database
 
 import (
 	"context"
+
+	"github.com/google/uuid"
 )
 
 const getFeedFollowsForUser = `-- name: GetFeedFollowsForUser :many
@@ -18,7 +20,7 @@ FROM
     INNER JOIN feed_follows ff ON ff.user_id = u.id 
     INNER JOIN feeds f ON f.id = ff.feed_id
 WHERE 
-    u.name = $1
+    u.id = $1
 `
 
 type GetFeedFollowsForUserRow struct {
@@ -26,8 +28,8 @@ type GetFeedFollowsForUserRow struct {
 	UserName string
 }
 
-func (q *Queries) GetFeedFollowsForUser(ctx context.Context, name string) ([]GetFeedFollowsForUserRow, error) {
-	rows, err := q.db.QueryContext(ctx, getFeedFollowsForUser, name)
+func (q *Queries) GetFeedFollowsForUser(ctx context.Context, id uuid.UUID) ([]GetFeedFollowsForUserRow, error) {
+	rows, err := q.db.QueryContext(ctx, getFeedFollowsForUser, id)
 	if err != nil {
 		return nil, err
 	}
