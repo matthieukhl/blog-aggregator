@@ -19,6 +19,7 @@ const (
 	ErrFailedToDeleteUsers  = "Failed to delete users"
 	ErrNoUsersFound         = "No users found"
 	ErrFeedDoesNotExist     = "Feed does not exist"
+	ErrNoExistingFeeds      = "No feeds registered yet. Register a feed using the 'addFeed' command."
 )
 
 type state struct {
@@ -45,6 +46,7 @@ func main() {
 	cmds.register("follow", middlewareLoggedIn(handlerFollow))
 	cmds.register("following", middlewareLoggedIn(handlerFollowing))
 	cmds.register("unfollow", middlewareLoggedIn(handlerUnfollow))
+	cmds.register("scrapeFeeds", middlewareLoggedIn(handlerScrapeFeeds))
 
 	if len(os.Args) < 2 {
 		fmt.Println(ErrNotEnoughArgs)
