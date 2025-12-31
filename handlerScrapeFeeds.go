@@ -45,7 +45,7 @@ func handlerScrapeFeeds(s *state, cmd command, user database.User) error {
 	for _, item := range feedData.Channel.Item {
 		// TODO: refactor code using a helper function to create postParams.
 		params := database.CreatePostParams{}
-		parsedPubDate, err := time.Parse(time.RFC3339, item.PubDate)
+		parsedPubDate, err := time.Parse(time.RFC1123Z, item.PubDate)
 		if err != nil {
 			params = database.CreatePostParams{
 				ID:          uuid.New(),
