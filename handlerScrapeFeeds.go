@@ -6,6 +6,7 @@ import (
 	"fmt"
 	"time"
 
+	"github.com/google/uuid"
 	"github.com/matthieukhl/blog-aggregator/internal/database"
 )
 
@@ -39,14 +40,45 @@ func handlerScrapeFeeds(s *state, cmd command, user database.User) error {
 		return err
 	}
 
-	// Print item titles to console
-	fmt.Println("=======================================")
-	fmt.Println(feed.Name)
-	fmt.Println("=======================================")
-	for i, item := range feedData.Channel.Item {
-		fmt.Printf("%d: %s\n", i+1, item.Title)
+	// Insert posts in posts table
+	newPostsAddedCount := 0
+	for _, item := range feedData.Channel.Item {
+		// TODO: refactor code using a helper function to create postParams.
+		params := database.CreatePostParams{}
+		parsedPubDate, err := time.Parse(time.RFC3339, item.PubDate)
+		if err != nil {
+			params = database.CreatePostParams{
+				ID:          uuid.New(),
+				Title:       item.Title,
+				Description: sql.NullString{String: item.Description, Valid: true},
+				Url:         item.Link,
+				PublishedAt: sql.NullTime{Time: time.Time{}, Valid: false},
+				FeedID:      feed.ID,
+				CreatedAt:   time.Now(),
+				UpdatedAt:   time.Now(),
+			}
+		} else {
+			params = database.CreatePostParams{
+				ID:          uuid.New(),
+				Title:       item.Title,
+				Description: sql.NullString{String: item.Description, Valid: true},
+				Url:         item.Link,
+				PublishedAt: sql.NullTime{Time: parsedPubDate, Valid: true},
+				FeedID:      feed.ID,
+				CreatedAt:   time.Now(),
+				UpdatedAt:   time.Now(),
+			}
+		}
+
+		result, err := s.db.CreatePost(context.Background(), params)
+		if err != nil {
+			return err
+		}
+		newPostsAddedCount += 1
+		fmt.Printf("New post: %s!\n", result.Title)
 	}
-	fmt.Println("")
+
+	fmt.Printf("\nSuccessfully inserted %d new posts from %s!\n", newPostsAddedCount, feed.Name)
 
 	return nil
 }
