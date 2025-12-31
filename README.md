@@ -59,6 +59,21 @@ touch ~/.gatorconfig.json
 }
 ```
 
+## Installation
+```bash
+go install -o gator github.com/matthieukhl/blog-aggregator
+```
+
 ## Usage
+Protected commands can only be executed by logged in users.
 - `register <username>`: registers a new user.
 - `login <username>`: logs in with specified username. Note: username must be registered before logging in.
+- `reset`: deletes all users from users table. Subsequently deletes every row in other tables due to ON DELETE CASCADE constaints.
+- `users`: returns a list of all users.
+- `agg <interval_between_requests`: (protected) fetches posts from registered feeds. It takes an interval between requests as argument such as 1s, 1m or 1h.
+- `addfeed <feed_name> <feed_url>`: (protected) adds a feed to the feeds table and subscribes to it. It takes two arguments: the feed's name and its url.
+- `feeds`: returns a list of all subscribed feeds.
+- `follow <feed_url>`: (protected) subscribes user to a feed. It takes one argument: the feed's url. Note: feed must first be added to the feeds table.
+- `following`: (protected) returns a list of all the feeds the user is subscribed to.
+- `unfollow <feed_url>`: (protected) unsubscibes user from specified feed. It takes one argument: the feed's url.
+- `browse <limit>`: (protected) returns post title and their description. It takes one optional argument to set the limit of posts returned. If none, defaults to 2.
